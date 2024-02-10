@@ -2,11 +2,7 @@ package ru.rivendell.aestheticmenu.config;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import org.bukkit.Location;
-import org.bukkit.inventory.ItemStack;
 import ru.rivendell.aestheticmenu.AestheticMenu;
-import ru.rivendell.rdfreeforall.RDFreeForAll;
-import ru.rivendell.rdfreeforall.config.adapters.LocationAdapter;
 
 import java.io.File;
 import java.io.IOException;
