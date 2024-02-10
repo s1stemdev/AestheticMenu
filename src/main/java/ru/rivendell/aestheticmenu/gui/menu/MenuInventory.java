@@ -9,6 +9,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import ru.rivendell.aestheticmenu.config.configurations.gui.GuiConfig;
 import ru.rivendell.aestheticmenu.config.configurations.gui.ItemConfig;
+import ru.rivendell.aestheticmenu.gui.PlayerInventoriesBuffer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +18,6 @@ public class MenuInventory {
 
     @Getter private GuiConfig gui;
 
-    @Getter private Inventory inventory;
     @Getter private MenuHolder holder;
 
     private MiniMessage mm;
@@ -29,13 +29,17 @@ public class MenuInventory {
         this.plain = plain;
     }
 
-    public void build() {
+    public Inventory build() {
+        Inventory inventory = null;
+
         holder = new MenuHolder(inventory);
         inventory = Bukkit.createInventory(holder, gui.getSize(), gui.getTitle());
 
         for(String key : gui.getItems().keySet()) {
             inventory.setItem(Integer.parseInt(key), buildItem(gui.getItems().get(key)));
         }
+
+        return inventory;
     }
 
     private ItemStack buildItem(ItemConfig itemConfig) {

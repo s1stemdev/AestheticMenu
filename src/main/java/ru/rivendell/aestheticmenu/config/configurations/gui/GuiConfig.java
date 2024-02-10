@@ -15,6 +15,7 @@ public class GuiConfig extends Configurable {
     private byte size;
     private boolean usePlayerInventory;
     private HashMap<String, ItemConfig> items;
+    private HashMap<String, ItemConfig> playerInvItems;
 
     @Override
     protected String getName() {

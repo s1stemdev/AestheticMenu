@@ -14,7 +14,9 @@ import ru.rivendell.aestheticmenu.config.configurations.ConfigRegistrar;
 import ru.rivendell.aestheticmenu.config.configurations.gui.GuiConfig;
 import ru.rivendell.aestheticmenu.events.HandlersRegistrar;
 import ru.rivendell.aestheticmenu.events.impl.InventoryClickHandler;
+import ru.rivendell.aestheticmenu.events.impl.InventoryCloseHandler;
 import ru.rivendell.aestheticmenu.gui.MenuRegistrar;
+import ru.rivendell.aestheticmenu.gui.PlayerInventoriesBuffer;
 
 import java.io.File;
 import java.util.logging.Logger;
@@ -32,6 +34,7 @@ public final class AestheticMenu extends JavaPlugin {
     @Inject private HandlersRegistrar handlersRegistrar;
     @Inject private MenuRegistrar menuRegistrar;
     @Inject private PluginMetrics pluginMetrics;
+    @Inject private PlayerInventoriesBuffer playerInventoriesBuffer;
 
     private MiniMessage mm = MiniMessage.miniMessage();
 
@@ -47,7 +50,7 @@ public final class AestheticMenu extends JavaPlugin {
 
         loadMenus();
 
-        commandRegistrar.registerCommand("aestheticmenu-forceopen", new ForceOpenCommand(menuRegistrar, "aestheticmenu.admin", configRegistrar.getMessagesConfig()));
+        commandRegistrar.registerCommand("aestheticmenu-forceopen", new ForceOpenCommand(menuRegistrar, "aestheticmenu.admin", configRegistrar.getMessagesConfig(), playerInventoriesBuffer));
 
         pluginMetrics.setupMetrics();
         registerEvents();
@@ -79,6 +82,7 @@ public final class AestheticMenu extends JavaPlugin {
 
     private void registerEvents() {
         handlersRegistrar.registerEvent(new InventoryClickHandler());
+        handlersRegistrar.registerEvent(new InventoryCloseHandler(playerInventoriesBuffer));
     }
 
 }

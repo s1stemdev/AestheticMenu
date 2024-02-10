@@ -7,6 +7,7 @@ import org.jetbrains.annotations.NotNull;
 import ru.rivendell.aestheticmenu.commands.Command;
 import ru.rivendell.aestheticmenu.config.configurations.messages.MessagesConfig;
 import ru.rivendell.aestheticmenu.gui.MenuRegistrar;
+import ru.rivendell.aestheticmenu.gui.PlayerInventoriesBuffer;
 import ru.rivendell.aestheticmenu.gui.menu.MenuInventory;
 
 import java.util.Objects;
@@ -14,10 +15,12 @@ import java.util.Objects;
 public class ForceOpenCommand extends Command {
 
     private MenuRegistrar menuRegistrar;
+    private PlayerInventoriesBuffer playerInventoriesBuffer;
 
-    public ForceOpenCommand(MenuRegistrar menuRegistrar, String permission, MessagesConfig messagesConfig) {
+    public ForceOpenCommand(MenuRegistrar menuRegistrar, String permission, MessagesConfig messagesConfig, PlayerInventoriesBuffer playerInventoriesBuffer) {
         super(permission, messagesConfig);
         this.menuRegistrar = menuRegistrar;
+        this.playerInventoriesBuffer = playerInventoriesBuffer;
     }
 
     @Override
@@ -26,8 +29,13 @@ public class ForceOpenCommand extends Command {
         if(player == null) return true;
 
         MenuInventory menu = menuRegistrar.getMenuById(args[1]);
-        menu.build();
-        player.openInventory(menu.getInventory());
+
+        if(menu.getGui().isUsePlayerInventory()) {
+            playerInventoriesBuffer.getBuffer().put(player.getUniqueId(), player.getInventory().getContents());
+            player.getInventory().clear();
+        }
+
+        player.openInventory(menu.build());
 
         return true;
     }
