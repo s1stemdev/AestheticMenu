@@ -1,6 +1,8 @@
 package ru.rivendell.aestheticmenu.commands.impl;
 
 import com.google.inject.Inject;
+import net.kyori.adventure.text.minimessage.MiniMessage;
+import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -16,30 +18,32 @@ public class AestheticMenuCommand implements CommandExecutor {
     @Inject private MessagesConfig messagesConfig;
     @Inject private ConfigRegistrar configRegistrar;
     @Inject private MenuRegistrar menuRegistrar;
+    @Inject private MiniMessage mm;
+    @Inject private PlainTextComponentSerializer plain;
 
 
     @Override
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
         if(!commandSender.hasPermission("aestheticmenu.admin")) {
-            commandSender.sendMessage(messagesConfig.getErrors().getNoPermission());
+            commandSender.sendMessage(serializeMessage(messagesConfig.getErrors().getNoPermission()));
             return true;
         }
 
         if(strings.length < 1) {
-            commandSender.sendMessage(messagesConfig.getErrors().getNotEnoughArgs());
+            commandSender.sendMessage(serializeMessage(messagesConfig.getErrors().getNotEnoughArgs()));
             return true;
         }
 
         switch (strings[0]) {
             case "reload": {
                 configRegistrar.loadConfig();
-                commandSender.sendMessage(messagesConfig.getSystem().getReloadMessage());
+                commandSender.sendMessage(serializeMessage(messagesConfig.getSystem().getReloadMessage()));
             }
             case "open": {
                 if(strings.length == 2) {
 
                     if(!(commandSender instanceof Player)) {
-                        commandSender.sendMessage(messagesConfig.getErrors().getOnlyPlayers());
+                        commandSender.sendMessage(serializeMessage(messagesConfig.getErrors().getOnlyPlayers()));
                         return true;
                     }
                     ((Player) commandSender).openInventory(menuRegistrar.getMenuById(strings[1]).getInventory());
@@ -53,4 +57,9 @@ public class AestheticMenuCommand implements CommandExecutor {
         }
         return true;
     }
+
+    private String serializeMessage(String message) {
+        return plain.serialize(mm.deserialize(message));
+    }
+
 }

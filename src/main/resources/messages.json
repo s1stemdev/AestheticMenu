@@ -1,8 +1,10 @@
 {
   "errors": {
-    "reloadMessage": "Plugin reloaded successful",
     "noPermission": "You can't use it",
     "onlyPlayers": "Only players can execute that command",
     "notEnoughArgs": "Not enough arguments"
+  },
+  "system": {
+    "reloadMessage": "Plugin reloaded successful"
   }
 }
