@@ -5,7 +5,7 @@ public enum Requirement {
     HAS_PERMISSION,
     HAS_ITEM,
     MONEY_VALUE,
-    PLACEHOLDER_VALUE
+    PLACEHOLDER_VALUE;
 
 
 }
