@@ -2,6 +2,8 @@ package ru.rivendell.aestheticmenu.config;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import ru.rivendell.aestheticmenu.AestheticMenu;
 
 import java.io.File;
@@ -15,11 +17,9 @@ import java.util.List;
 
 public class ConfigLoader {
 
-    private AestheticMenu plugin;
+    @Inject private AestheticMenu plugin;
 
-    public ConfigLoader(AestheticMenu plugin) {
-        this.plugin = plugin;
-    }
+    public ConfigLoader() { }
 
     public <T extends Configurable> void save(T clazz) {
         Gson g = Gson();
