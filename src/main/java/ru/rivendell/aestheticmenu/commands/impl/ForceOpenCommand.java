@@ -23,9 +23,13 @@ public class ForceOpenCommand extends Command {
     @Override
     public boolean onExecute(@NotNull CommandSender sender, org.bukkit.command.@NotNull Command command, @NotNull String s, @NotNull String[] args) {
         Player player = Bukkit.getServer().getPlayer(args[0]);
-        assert player != null;
+        if(player == null) return true;
 
-        player.openInventory(Objects.requireNonNull(menuRegistrar.getMenuById(args[1])).getInventory());
+        MenuInventory menu = menuRegistrar.getMenuById(args[1]);
+        menu.build();
+        player.openInventory(menu.getInventory());
+
         return true;
     }
+
 }

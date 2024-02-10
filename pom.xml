@@ -40,7 +40,30 @@
           </execution>
         </executions>
       </plugin>
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-shade-plugin</artifactId>
+            <version>3.1.0</version>
+            <configuration>
+                <relocations>
+                    <relocation>
+                        <pattern>org.bstats</pattern>
+                        <!-- Replace this with your package! -->
+                        <shadedPattern>your.package</shadedPattern>
+                    </relocation>
+                </relocations>
+            </configuration>
+            <executions>
+                <execution>
+                    <phase>package</phase>
+                    <goals>
+                        <goal>shade</goal>
+                    </goals>
+                </execution>
+            </executions>
+        </plugin>
     </plugins>
+
     <resources>
       <resource>
         <directory>src/main/resources</directory>
@@ -61,6 +84,12 @@
   </repositories>
 
   <dependencies>
+      <dependency>
+          <groupId>org.bstats</groupId>
+          <artifactId>bstats-bukkit</artifactId>
+          <version>3.0.2</version>
+          <scope>compile</scope>
+      </dependency>
       <dependency>
           <groupId>org.spigotmc</groupId>
           <artifactId>spigot-api</artifactId>

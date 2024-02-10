@@ -11,8 +11,12 @@ import ru.rivendell.aestheticmenu.commands.CommandRegistrar;
 import ru.rivendell.aestheticmenu.commands.impl.ForceOpenCommand;
 import ru.rivendell.aestheticmenu.config.ConfigLoader;
 import ru.rivendell.aestheticmenu.config.configurations.ConfigRegistrar;
+import ru.rivendell.aestheticmenu.config.configurations.gui.GuiConfig;
+import ru.rivendell.aestheticmenu.events.HandlersRegistrar;
+import ru.rivendell.aestheticmenu.events.impl.InventoryClickHandler;
 import ru.rivendell.aestheticmenu.gui.MenuRegistrar;
 
+import java.io.File;
 import java.util.logging.Logger;
 
 @Singleton
@@ -25,8 +29,11 @@ public final class AestheticMenu extends JavaPlugin {
     @Inject private ConfigLoader configLoader;
     @Inject private ConfigRegistrar configRegistrar;
     @Inject private CommandRegistrar commandRegistrar;
+    @Inject private HandlersRegistrar handlersRegistrar;
     @Inject private MenuRegistrar menuRegistrar;
-    @Inject private MiniMessage mm;
+    @Inject private PluginMetrics pluginMetrics;
+
+    private MiniMessage mm = MiniMessage.miniMessage();
 
     @Override
     public void onEnable() {
@@ -38,13 +45,40 @@ public final class AestheticMenu extends JavaPlugin {
         configRegistrar.loadConfig();
         log.info("Config has been loaded");
 
+        loadMenus();
+
         commandRegistrar.registerCommand("aestheticmenu-forceopen", new ForceOpenCommand(menuRegistrar, "aestheticmenu.admin", configRegistrar.getMessagesConfig()));
-        commandRegistrar.registerCommand("aestheticmenu-reload", new ForceOpenCommand(menuRegistrar, "aestheticmenu.admin", configRegistrar.getMessagesConfig()));
+
+        pluginMetrics.setupMetrics();
+        registerEvents();
     }
 
     @Override
     public void onDisable() {
         log.info("Disabling plugin");
+    }
+
+
+    private void loadMenus() {
+        File folder = new File(getDataFolder(), "menus/");
+        if(folder.isFile()) return;;
+
+        try {
+
+            File[] files = folder.listFiles();
+
+            for (File file : files) {
+                menuRegistrar.registerMenu(configLoader.load("menus/" + file.getName().replace(".json", ""), GuiConfig.class));
+                log.info("Loading menu " + file.getName());
+            }
+
+        } catch (Exception e) {
+            log.severe(e.getMessage());
+        }
+    }
+
+    private void registerEvents() {
+        handlersRegistrar.registerEvent(new InventoryClickHandler());
     }
 
 }

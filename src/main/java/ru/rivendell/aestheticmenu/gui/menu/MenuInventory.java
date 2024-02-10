@@ -31,7 +31,7 @@ public class MenuInventory {
 
     public void build() {
         holder = new MenuHolder(inventory);
-        inventory = Bukkit.createInventory(holder, gui.getSize());
+        inventory = Bukkit.createInventory(holder, gui.getSize(), gui.getTitle());
 
         for(String key : gui.getItems().keySet()) {
             inventory.setItem(Integer.parseInt(key), buildItem(gui.getItems().get(key)));

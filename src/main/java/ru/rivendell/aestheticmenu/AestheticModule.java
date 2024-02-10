@@ -6,6 +6,7 @@ import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import ru.rivendell.aestheticmenu.commands.CommandRegistrar;
 import ru.rivendell.aestheticmenu.config.ConfigLoader;
 import ru.rivendell.aestheticmenu.config.configurations.ConfigRegistrar;
+import ru.rivendell.aestheticmenu.events.HandlersRegistrar;
 import ru.rivendell.aestheticmenu.gui.MenuRegistrar;
 
 public class AestheticModule extends AbstractModule {
@@ -21,6 +22,8 @@ public class AestheticModule extends AbstractModule {
         bind(ConfigLoader.class).toInstance(new ConfigLoader());
         bind(ConfigRegistrar.class).toInstance(new ConfigRegistrar());
         bind(CommandRegistrar.class).toInstance(new CommandRegistrar());
+        bind(HandlersRegistrar.class).toInstance(new HandlersRegistrar());
         bind(MenuRegistrar.class).toInstance(new MenuRegistrar());
+        bind(PluginMetrics.class).toInstance(new PluginMetrics());
     }
 }

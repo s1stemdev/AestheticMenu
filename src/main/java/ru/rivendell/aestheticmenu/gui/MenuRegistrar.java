@@ -10,18 +10,20 @@ import ru.rivendell.aestheticmenu.config.configurations.gui.GuiConfig;
 import ru.rivendell.aestheticmenu.gui.menu.MenuInventory;
 
 import javax.annotation.Nullable;
+import java.util.ArrayList;
 import java.util.List;
 
 @Singleton
 public class MenuRegistrar {
 
     @Inject private ConfigLoader configLoader;
-    @Inject private MiniMessage mm;
-    @Inject private PlainTextComponentSerializer plain;
 
     @Getter private List<MenuInventory> menus;
 
-    public MenuRegistrar() { }
+    private MiniMessage mm = MiniMessage.miniMessage();
+    private PlainTextComponentSerializer plain = PlainTextComponentSerializer.plainText();
+
+    public MenuRegistrar() { menus = new ArrayList<>(); }
 
     public void registerMenu(GuiConfig config) {
         MenuInventory menu = new MenuInventory(config, mm, plain);
