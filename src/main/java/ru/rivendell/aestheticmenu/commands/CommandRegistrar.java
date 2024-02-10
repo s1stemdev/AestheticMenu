@@ -11,6 +11,12 @@ public class CommandRegistrar {
 
     public CommandRegistrar() { }
 
+    public void registerCommand(String name, Command command) {
+        plugin.getCommand(name).setExecutor(command);
+    }
 
+    public void registerDynamicCommand(String name, Command command) {
+        
+    }
 
 }
