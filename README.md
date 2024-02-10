@@ -1,4 +1,4 @@
-![build](https://img.shields.io/github/actions/workflow/status/s1stemdev/AestheticMenu/development.yml) 
+![build](https://img.shields.io/github/actions/workflow/status/s1stemdev/AestheticMenu/maven.yml) 
 ![GitHub release](https://img.shields.io/github/v/release/s1stemdev/AestheticMenu)
 
 # TODO List:
