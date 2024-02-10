@@ -1,4 +1,4 @@
-package ru.rivendell.aestheticmenu.gui;
+package ru.rivendell.aestheticmenu.gui.menu;
 
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;

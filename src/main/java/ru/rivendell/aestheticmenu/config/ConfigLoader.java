@@ -15,6 +15,7 @@ import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 import java.util.List;
 
+@Singleton
 public class ConfigLoader {
 
     @Inject private AestheticMenu plugin;

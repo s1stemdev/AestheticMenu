@@ -2,3 +2,11 @@ name: AestheticMenu
 version: '${project.version}'
 main: ru.rivendell.aestheticmenu.AestheticMenu
 api-version: '1.20'
+commands:
+  aestheticmenu:
+    aliases:
+      - amenu
+      - am
+      - aestheticm
+      - aesthm
+    usage: /aestheticmenu

@@ -10,10 +10,11 @@ import java.util.HashMap;
 public class GuiConfig extends Configurable {
 
     private String menuId;
+    private String command;
     private String title;
     private byte size;
     private boolean usePlayerInventory;
-    private HashMap<Integer, ItemConfig> items;
+    private HashMap<String, ItemConfig> items;
 
     @Override
     protected String getName() {
