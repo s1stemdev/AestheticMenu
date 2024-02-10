@@ -1,0 +1,4 @@
+name: AestheticMenu
+version: '${project.version}'
+main: ru.rivendell.aestheticmenu.AestheticMenu
+api-version: '1.20'
