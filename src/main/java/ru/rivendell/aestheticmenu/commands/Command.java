@@ -7,20 +7,17 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
-import ru.rivendell.aestheticmenu.enums.Executor;
+import ru.rivendell.aestheticmenu.config.configurations.messages.MessagesConfig;
 
 public abstract class Command implements CommandExecutor {
-
-    private Executor executor;
     private String permission;
-    protected MiniMessage mm;
-    protected PlainTextComponentSerializer plain;
+    protected MiniMessage mm = MiniMessage.miniMessage();
+    protected PlainTextComponentSerializer plain = PlainTextComponentSerializer.plainText();
+    protected MessagesConfig messagesConfig;
 
-    public Command(Executor executor, String permission, MiniMessage mm, PlainTextComponentSerializer plain) {
-        this.executor = executor;
+    public Command(String permission, MessagesConfig messagesConfig) {
         this.permission = permission;
-        this.mm = mm;
-        this.plain = plain;
+        this.messagesConfig = messagesConfig;
     }
 
     public abstract boolean onExecute(@NotNull CommandSender sender, @NotNull org.bukkit.command.Command command, @NotNull String s, @NotNull String[] args);
@@ -30,9 +27,6 @@ public abstract class Command implements CommandExecutor {
         if(permission != null) {
             if(!commandSender.hasPermission(permission)) return true;
         }
-
-        if(executor == Executor.PLAYER && !(commandSender instanceof Player)) return true;
-        if(executor == Executor.CONSOLE && !(commandSender instanceof ConsoleCommandSender)) return true;
 
         return onExecute(commandSender, command, s, strings);
     }

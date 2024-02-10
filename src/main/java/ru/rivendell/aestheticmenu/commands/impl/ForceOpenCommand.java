@@ -1,28 +1,31 @@
 package ru.rivendell.aestheticmenu.commands.impl;
 
-import net.kyori.adventure.text.minimessage.MiniMessage;
-import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
+import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import ru.rivendell.aestheticmenu.commands.Command;
 import ru.rivendell.aestheticmenu.config.configurations.messages.MessagesConfig;
+import ru.rivendell.aestheticmenu.gui.MenuRegistrar;
 import ru.rivendell.aestheticmenu.gui.menu.MenuInventory;
 
-public class MenuOpenCommand extends Command {
+import java.util.Objects;
 
-    private MenuInventory menu;
+public class ForceOpenCommand extends Command {
 
-    public MenuOpenCommand(MenuInventory menu, String permission, MessagesConfig messagesConfig) {
+    private MenuRegistrar menuRegistrar;
+
+    public ForceOpenCommand(MenuRegistrar menuRegistrar, String permission, MessagesConfig messagesConfig) {
         super(permission, messagesConfig);
-        this.menu = menu;
+        this.menuRegistrar = menuRegistrar;
     }
 
     @Override
     public boolean onExecute(@NotNull CommandSender sender, org.bukkit.command.@NotNull Command command, @NotNull String s, @NotNull String[] args) {
-        if(!(sender instanceof Player)) return false;
-        Player player = (Player) sender;
-        player.openInventory(menu.getInventory());
+        Player player = Bukkit.getServer().getPlayer(args[0]);
+        assert player != null;
+
+        player.openInventory(Objects.requireNonNull(menuRegistrar.getMenuById(args[1])).getInventory());
         return true;
     }
 }

@@ -3,10 +3,13 @@ version: '${project.version}'
 main: ru.rivendell.aestheticmenu.AestheticMenu
 api-version: '1.20'
 commands:
-  aestheticmenu:
+  aestheticmenu-forceopen:
     aliases:
-      - amenu
-      - am
-      - aestheticm
-      - aesthm
-    usage: /aestheticmenu
+      - amenu-forceopen
+      - am-fe
+    usage: /aestheticmenu-forceopen
+  aestheticmenu-reload:
+    aliases:
+      - amenu-reload
+      - am-reload
+    usage: /aestheticmenu-reload

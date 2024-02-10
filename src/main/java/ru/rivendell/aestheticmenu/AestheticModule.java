@@ -20,8 +20,6 @@ public class AestheticModule extends AbstractModule {
         bind(AestheticMenu.class).toInstance(plugin);
         bind(ConfigLoader.class).toInstance(new ConfigLoader());
         bind(ConfigRegistrar.class).toInstance(new ConfigRegistrar());
-        bind(MiniMessage.class).toInstance(MiniMessage.miniMessage());
-        bind(PlainTextComponentSerializer.class).toInstance(PlainTextComponentSerializer.plainText());
         bind(CommandRegistrar.class).toInstance(new CommandRegistrar());
         bind(MenuRegistrar.class).toInstance(new MenuRegistrar());
     }
