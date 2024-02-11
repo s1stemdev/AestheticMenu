@@ -2,9 +2,8 @@ package ru.rivendell.aestheticmenu;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import org.bstats.charts.CustomChart;
+import org.bstats.bukkit.Metrics;
 import org.bstats.charts.SimplePie;
-import org.bstats.json.JsonObjectBuilder;
 import org.bukkit.Bukkit;
 
 @Singleton

@@ -21,8 +21,12 @@ public class InventoryCloseHandler implements Listener {
         if(event.getInventory().getHolder() instanceof MenuHolder) {
             Player player = (Player) event.getPlayer();
 
-            player.getInventory().setContents(playerInventoriesBuffer.getBuffer().get(player.getUniqueId()));
-            playerInventoriesBuffer.getBuffer().remove(player.getUniqueId());
+            MenuHolder holder = (MenuHolder) event.getInventory().getHolder();
+
+            if(holder.isBuffer()) {
+                player.getInventory().setContents(playerInventoriesBuffer.getBuffer().get(player.getUniqueId()));
+                playerInventoriesBuffer.getBuffer().remove(player.getUniqueId());
+            }
         }
     }
 }

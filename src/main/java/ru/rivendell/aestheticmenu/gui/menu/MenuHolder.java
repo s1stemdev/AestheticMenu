@@ -1,5 +1,6 @@
 package ru.rivendell.aestheticmenu.gui.menu;
 
+import lombok.Getter;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 
@@ -7,15 +8,16 @@ import java.util.UUID;
 
 public class MenuHolder implements InventoryHolder {
 
-    private final UUID uniqueId;
+    @Getter private final UUID uniqueId;
+    @Getter private final boolean buffer;
     private final Inventory link;
 
-    protected MenuHolder(Inventory link) {
+    protected MenuHolder(Inventory link, boolean buffer) {
         this.link = link;
+        this.buffer = buffer;
         this.uniqueId = UUID.randomUUID();
     }
 
-    public UUID uniqueId() { return this.uniqueId; }
     @Override
     public Inventory getInventory() { return this.link; }
 }

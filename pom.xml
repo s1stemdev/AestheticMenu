@@ -49,7 +49,7 @@
                     <relocation>
                         <pattern>org.bstats</pattern>
                         <!-- Replace this with your package! -->
-                        <shadedPattern>your.package</shadedPattern>
+                        <shadedPattern>ru.rivendell.aestheticmenu</shadedPattern>
                     </relocation>
                 </relocations>
             </configuration>
