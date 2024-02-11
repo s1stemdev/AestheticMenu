@@ -17,16 +17,14 @@ import java.util.List;
 public class MenuRegistrar {
 
     @Inject private ConfigLoader configLoader;
+    @Inject private PlayerInventoriesBuffer playerInventoriesBuffer;
 
     @Getter private List<MenuInventory> menus;
-
-    private MiniMessage mm = MiniMessage.miniMessage();
-    private PlainTextComponentSerializer plain = PlainTextComponentSerializer.plainText();
 
     public MenuRegistrar() { menus = new ArrayList<>(); }
 
     public void registerMenu(GuiConfig config) {
-        MenuInventory menu = new MenuInventory(config, mm, plain);
+        MenuInventory menu = new MenuInventory(config, playerInventoriesBuffer);
         menus.add(menu);
     }
 

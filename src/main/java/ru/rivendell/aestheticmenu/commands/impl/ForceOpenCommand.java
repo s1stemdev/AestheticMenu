@@ -30,12 +30,8 @@ public class ForceOpenCommand extends Command {
 
         MenuInventory menu = menuRegistrar.getMenuById(args[1]);
 
-        if(menu.getGui().isUsePlayerInventory()) {
-            playerInventoriesBuffer.getBuffer().put(player.getUniqueId(), player.getInventory().getContents());
-            player.getInventory().clear();
-        }
-
-        player.openInventory(menu.build());
+        if(menu == null) return true;
+        menu.openCustomInventory(menu.build(), player);
 
         return true;
     }

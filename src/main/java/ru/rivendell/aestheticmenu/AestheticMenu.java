@@ -6,6 +6,8 @@ import com.google.inject.Injector;
 import com.google.inject.Singleton;
 import lombok.Getter;
 import net.kyori.adventure.text.minimessage.MiniMessage;
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import ru.rivendell.aestheticmenu.commands.CommandRegistrar;
 import ru.rivendell.aestheticmenu.commands.impl.ForceOpenCommand;
@@ -15,10 +17,13 @@ import ru.rivendell.aestheticmenu.config.configurations.gui.GuiConfig;
 import ru.rivendell.aestheticmenu.events.HandlersRegistrar;
 import ru.rivendell.aestheticmenu.events.impl.InventoryClickHandler;
 import ru.rivendell.aestheticmenu.events.impl.InventoryCloseHandler;
+import ru.rivendell.aestheticmenu.events.impl.PlayerQuitHandler;
 import ru.rivendell.aestheticmenu.gui.MenuRegistrar;
 import ru.rivendell.aestheticmenu.gui.PlayerInventoriesBuffer;
+import ru.rivendell.aestheticmenu.gui.menu.MenuHolder;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.logging.Logger;
 
 @Singleton
@@ -59,30 +64,40 @@ public final class AestheticMenu extends JavaPlugin {
     @Override
     public void onDisable() {
         log.info("Disabling plugin");
+
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            if(player.getOpenInventory().getTopInventory() == null) continue;
+
+            if(player.getOpenInventory().getTopInventory().getHolder() instanceof MenuHolder) {
+                MenuHolder holder = (MenuHolder) player.getOpenInventory().getTopInventory().getHolder();
+
+                if(holder.isBuffer()) {
+                    player.getInventory().setContents(playerInventoriesBuffer.getBuffer().get(player.getUniqueId()));
+                    playerInventoriesBuffer.getBuffer().remove(player.getUniqueId());
+                }
+            }
+
+        }
     }
 
 
     private void loadMenus() {
         File folder = new File(getDataFolder(), "menus/");
-        if(folder.isFile()) return;;
+        if (folder.isFile()) return;
+        ;
 
-        try {
+        File[] files = folder.listFiles();
 
-            File[] files = folder.listFiles();
-
-            for (File file : files) {
-                menuRegistrar.registerMenu(configLoader.load("menus/" + file.getName().replace(".json", ""), GuiConfig.class));
-                log.info("Loading menu " + file.getName());
-            }
-
-        } catch (Exception e) {
-            log.severe(e.getMessage());
+        for (File file : files) {
+            menuRegistrar.registerMenu(configLoader.load("menus/" + file.getName().replace(".json", ""), GuiConfig.class));
+            log.info("Loading menu " + file.getName());
         }
     }
 
     private void registerEvents() {
         handlersRegistrar.registerEvent(new InventoryClickHandler());
         handlersRegistrar.registerEvent(new InventoryCloseHandler(playerInventoriesBuffer));
+        handlersRegistrar.registerEvent(new PlayerQuitHandler(playerInventoriesBuffer));
     }
 
 }

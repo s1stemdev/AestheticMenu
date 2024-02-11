@@ -26,12 +26,8 @@ public class MenuOpenCommand extends Command {
         if(!(sender instanceof Player)) return false;
         Player player = (Player) sender;
 
-        if(menu.getGui().isUsePlayerInventory()) {
-            buffer.getBuffer().put(player.getUniqueId(), player.getInventory().getContents());
-            player.getInventory().clear();
-        }
-
-        player.openInventory(menu.build());
+        if(menu == null) return true;
+        menu.openCustomInventory(menu.build(), player);
 
         return true;
     }
