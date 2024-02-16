@@ -3,9 +3,13 @@
 
 # TODO List:
 
-- [ ] Creating GUI menus in json config
+- [x] Creating GUI menus in json config
 - [ ] Plugin API
-- [ ] Creating menus with Chest and Player inventory
-- [ ] Add bStats statistic
+- [x] Creating menus with Chest and Player inventory
+- [x] Add bStats statistic
+- [ ] PlaceholderAPI support
+- [ ] Animations
+- [ ] Open and click requirements
+- [ ] Ingame menu creating
 
 ![bStats](https://bstats.org/signatures/bukkit/AestheticMenu.svg)
