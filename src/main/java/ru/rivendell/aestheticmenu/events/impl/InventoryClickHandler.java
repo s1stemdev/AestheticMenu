@@ -32,6 +32,7 @@ public class InventoryClickHandler implements Listener {
     @EventHandler
     public void onClick(InventoryClickEvent event) {
         if(!(event.getInventory().getHolder() instanceof MenuHolder)) return;
+        if(event.getCurrentItem() == null) return;
 
         ItemContainerConfig config = deserializer.fromJson(event.getCurrentItem().getItemMeta().getPersistentDataContainer().get(AestheticMenu.COMMANDS_KEY, PersistentDataType.STRING), ItemContainerConfig.class);
 
