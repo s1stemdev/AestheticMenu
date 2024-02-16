@@ -15,5 +15,6 @@ public class ItemConfig {
     private int custommodeldata;
     private String name;
     private List<String> lore;
+    private ItemContainerConfig data;
 
 }

@@ -1,15 +1,20 @@
 package ru.rivendell.aestheticmenu.gui.menu;
 
+import com.google.gson.Gson;
 import lombok.Getter;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.persistence.PersistentDataContainer;
+import org.bukkit.persistence.PersistentDataType;
+import ru.rivendell.aestheticmenu.AestheticMenu;
 import ru.rivendell.aestheticmenu.config.configurations.gui.GuiConfig;
 import ru.rivendell.aestheticmenu.config.configurations.gui.ItemConfig;
 import ru.rivendell.aestheticmenu.gui.PlayerInventoriesBuffer;
@@ -26,10 +31,13 @@ public class MenuInventory {
     private MiniMessage mm = MiniMessage.miniMessage();
     private LegacyComponentSerializer legacy = LegacyComponentSerializer.legacySection();
     private PlayerInventoriesBuffer playerInventoriesBuffer;
+    private Gson serializer;
 
     public MenuInventory(GuiConfig gui, PlayerInventoriesBuffer playerInventoriesBuffer) {
         this.gui = gui;
         this.playerInventoriesBuffer = playerInventoriesBuffer;
+
+        serializer = new Gson();
     }
 
     public void openCustomInventory(CustomInventory inventory, Player player) {
@@ -87,6 +95,11 @@ public class MenuInventory {
         meta.setDisplayName(legacy.serialize(mm.deserialize(itemConfig.getName())));
         meta.setLore(serializeLore(itemConfig.getLore()));
 
+        PersistentDataContainer container = meta.getPersistentDataContainer();
+        container.set(AestheticMenu.COMMANDS_KEY, PersistentDataType.STRING,
+                serializer.toJson(itemConfig.getData())
+        );
+
         item.setItemMeta(meta);
         return item;
     }
@@ -100,5 +113,6 @@ public class MenuInventory {
 
         return serializedLore;
     }
+
 
 }

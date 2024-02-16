@@ -1,5 +1,7 @@
 package ru.rivendell.aestheticmenu;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.inject.AbstractModule;
 import ru.rivendell.aestheticmenu.commands.CommandRegistrar;
 import ru.rivendell.aestheticmenu.config.ConfigLoader;
@@ -7,6 +9,8 @@ import ru.rivendell.aestheticmenu.config.configurations.ConfigRegistrar;
 import ru.rivendell.aestheticmenu.events.HandlersRegistrar;
 import ru.rivendell.aestheticmenu.gui.MenuRegistrar;
 import ru.rivendell.aestheticmenu.gui.PlayerInventoriesBuffer;
+
+import java.lang.reflect.Modifier;
 
 public class AestheticModule extends AbstractModule {
 

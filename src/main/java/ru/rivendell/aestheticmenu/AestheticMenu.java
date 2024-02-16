@@ -7,6 +7,7 @@ import com.google.inject.Singleton;
 import lombok.Getter;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Bukkit;
+import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import ru.rivendell.aestheticmenu.commands.CommandRegistrar;
@@ -40,12 +41,15 @@ public final class AestheticMenu extends JavaPlugin {
     @Inject private MenuRegistrar menuRegistrar;
     @Inject private PluginMetrics pluginMetrics;
     @Inject private PlayerInventoriesBuffer playerInventoriesBuffer;
-
     private MiniMessage mm = MiniMessage.miniMessage();
+
+    public static NamespacedKey COMMANDS_KEY;
 
     @Override
     public void onEnable() {
         log = getLogger();
+        COMMANDS_KEY = new NamespacedKey(this, "commands");
+
         this.injector = Guice.createInjector(new AestheticModule(this));
         this.injector.injectMembers(this);
         log.info("Injector has created successful");
