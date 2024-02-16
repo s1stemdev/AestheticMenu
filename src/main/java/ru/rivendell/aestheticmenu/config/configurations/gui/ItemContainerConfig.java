@@ -8,6 +8,6 @@ import java.util.List;
 @Getter @Setter
 public class ItemContainerConfig {
 
-    private List<String> commands;
+    private List<ActionConfig> actions;
 
 }

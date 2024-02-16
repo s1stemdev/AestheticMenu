@@ -2,8 +2,13 @@ package ru.rivendell.aestheticmenu.events.impl;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.sun.source.tree.BreakTree;
 import me.clip.placeholderapi.PlaceholderAPI;
+import net.kyori.adventure.text.minimessage.MiniMessage;
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
+import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.bukkit.Bukkit;
+import org.bukkit.block.data.FaceAttachable;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -11,7 +16,9 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.persistence.PersistentDataType;
 import ru.rivendell.aestheticmenu.AestheticMenu;
+import ru.rivendell.aestheticmenu.config.configurations.gui.ActionConfig;
 import ru.rivendell.aestheticmenu.config.configurations.gui.ItemContainerConfig;
+import ru.rivendell.aestheticmenu.enums.ActionType;
 import ru.rivendell.aestheticmenu.gui.menu.MenuHolder;
 import ru.rivendell.aestheticmenu.gui.menu.MenuInventory;
 
@@ -21,12 +28,16 @@ import java.util.List;
 public class InventoryClickHandler implements Listener {
 
     private Gson deserializer;
+    private LegacyComponentSerializer legacy;
+    private MiniMessage miniMessage;
 
     public InventoryClickHandler() {
         deserializer = new GsonBuilder()
                 .excludeFieldsWithModifiers(Modifier.TRANSIENT, Modifier.STATIC)
                 //.registerTypeAdapter(Location.class, new LocationAdapter())
                 .create();
+        legacy = LegacyComponentSerializer.legacySection();
+        miniMessage = MiniMessage.miniMessage();
     }
 
     @EventHandler
@@ -35,15 +46,33 @@ public class InventoryClickHandler implements Listener {
         if(event.getCurrentItem() == null) return;
 
         ItemContainerConfig config = deserializer.fromJson(event.getCurrentItem().getItemMeta().getPersistentDataContainer().get(AestheticMenu.COMMANDS_KEY, PersistentDataType.STRING), ItemContainerConfig.class);
+        execute((Player) event.getWhoClicked(), config);
 
-        executeCommands(Bukkit.getConsoleSender(), config.getCommands(), (Player) event.getWhoClicked());
         event.setCancelled(true);
     }
 
-    private void executeCommands(CommandSender sender, List<String> commands, Player player) {
-        for (String command : commands) {
-            Bukkit.getServer().dispatchCommand(sender, PlaceholderAPI.setPlaceholders(player, command));
+    private void execute(Player player, ItemContainerConfig config) {
+
+        for (ActionConfig action : config.getActions()) {
+
+            switch (action.getType()) {
+                case MESSAGE: {
+                    player.sendMessage(legacy.serialize(miniMessage.deserialize(PlaceholderAPI.setPlaceholders(player, action.getData()))));
+                    break;
+                }
+                case PLAYER: {
+                    Bukkit.getServer().dispatchCommand(player, PlaceholderAPI.setPlaceholders(player, action.getData()));
+                    break;
+                }
+                case CONSOLE: {
+                    Bukkit.getServer().dispatchCommand(Bukkit.getServer().getConsoleSender(), PlaceholderAPI.setPlaceholders(player, action.getData()));
+                    break;
+                }
+                case CLOSE: {
+                    player.closeInventory();
+                    break;
+                }
+            }
         }
     }
-
 }
