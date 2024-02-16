@@ -2,8 +2,10 @@ package ru.rivendell.aestheticmenu.events.impl;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -33,13 +35,13 @@ public class InventoryClickHandler implements Listener {
 
         ItemContainerConfig config = deserializer.fromJson(event.getCurrentItem().getItemMeta().getPersistentDataContainer().get(AestheticMenu.COMMANDS_KEY, PersistentDataType.STRING), ItemContainerConfig.class);
 
-        executeCommands(Bukkit.getConsoleSender(), config.getCommands());
+        executeCommands(Bukkit.getConsoleSender(), config.getCommands(), (Player) event.getWhoClicked());
         event.setCancelled(true);
     }
 
-    private void executeCommands(CommandSender sender, List<String> commands) {
+    private void executeCommands(CommandSender sender, List<String> commands, Player player) {
         for (String command : commands) {
-            Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), command);
+            Bukkit.getServer().dispatchCommand(sender, PlaceholderAPI.setPlaceholders(player, command));
         }
     }
 

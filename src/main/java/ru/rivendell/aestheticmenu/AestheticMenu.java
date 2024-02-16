@@ -48,6 +48,9 @@ public final class AestheticMenu extends JavaPlugin {
     @Override
     public void onEnable() {
         log = getLogger();
+
+        loadDepends();
+
         COMMANDS_KEY = new NamespacedKey(this, "commands");
 
         this.injector = Guice.createInjector(new AestheticModule(this));
@@ -81,6 +84,16 @@ public final class AestheticMenu extends JavaPlugin {
                 }
             }
 
+        }
+    }
+
+    private void loadDepends() {
+        if(Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
+            log.info("PlaceholderAPI hooked successful!");
+        }
+        else {
+            log.severe("PlaceholderAPI not found! Install it to get best experience");
+            Bukkit.getPluginManager().disablePlugin(this);
         }
     }
 

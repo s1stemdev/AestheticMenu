@@ -27,7 +27,7 @@ public class MenuOpenCommand extends Command {
         Player player = (Player) sender;
 
         if(menu == null) return true;
-        menu.openCustomInventory(menu.build(), player);
+        menu.openCustomInventory(menu.build(player), player);
 
         return true;
     }

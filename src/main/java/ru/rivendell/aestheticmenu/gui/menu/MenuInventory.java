@@ -2,6 +2,7 @@ package ru.rivendell.aestheticmenu.gui.menu;
 
 import com.google.gson.Gson;
 import lombok.Getter;
+import me.clip.placeholderapi.PlaceholderAPI;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
@@ -53,29 +54,29 @@ public class MenuInventory {
 
     }
 
-    public CustomInventory build() {
+    public CustomInventory build(Player player) {
         Inventory inventory = null;
 
         holder = new MenuHolder(inventory, gui.isUsePlayerInventory());
-        inventory = Bukkit.createInventory(holder, gui.getSize(), legacy.serialize(mm.deserialize(gui.getTitle())));
+        inventory = Bukkit.createInventory(holder, gui.getSize(), legacy.serialize(mm.deserialize(PlaceholderAPI.setPlaceholders(player, gui.getTitle()))));
 
         for(String key : gui.getItems().keySet()) {
-            inventory.setItem(Integer.parseInt(key), buildItem(gui.getItems().get(key)));
+            inventory.setItem(Integer.parseInt(key), buildItem(gui.getItems().get(key), player));
         }
 
         if(gui.isUsePlayerInventory()) {
 
-            return new CustomInventory(inventory, buildPlayerContents());
+            return new CustomInventory(inventory, buildPlayerContents(player));
         }
 
         return new CustomInventory(inventory);
     }
 
-    public ItemStack[] buildPlayerContents() {
+    public ItemStack[] buildPlayerContents(Player player) {
         ItemStack[] contents = new ItemStack[41];
 
         for(String key : gui.getPlayerInvItems().keySet()) {
-            contents[Integer.parseInt(key)] = buildItem(gui.getPlayerInvItems().get(key));
+            contents[Integer.parseInt(key)] = buildItem(gui.getPlayerInvItems().get(key), player);
         }
 
         for (int i = 0; i < contents.length; i++) {
@@ -85,15 +86,15 @@ public class MenuInventory {
         return contents;
     }
 
-    private ItemStack buildItem(ItemConfig itemConfig) {
+    private ItemStack buildItem(ItemConfig itemConfig, Player player) {
         ItemStack item = new ItemStack(itemConfig.getMaterial());
 
         item.setAmount(itemConfig.getAmount());
 
         ItemMeta meta = item.getItemMeta();
         assert meta != null;
-        meta.setDisplayName(legacy.serialize(mm.deserialize(itemConfig.getName())));
-        meta.setLore(serializeLore(itemConfig.getLore()));
+        meta.setDisplayName(legacy.serialize(mm.deserialize(PlaceholderAPI.setPlaceholders(player, itemConfig.getName()))));
+        meta.setLore(serializeLore(itemConfig.getLore(), player));
 
         PersistentDataContainer container = meta.getPersistentDataContainer();
         container.set(AestheticMenu.COMMANDS_KEY, PersistentDataType.STRING,
@@ -104,11 +105,11 @@ public class MenuInventory {
         return item;
     }
 
-    private List<String> serializeLore(List<String> lore) {
+    private List<String> serializeLore(List<String> lore, Player player) {
         List<String> serializedLore = new ArrayList<>();
 
         for (String s : lore) {
-            serializedLore.add(legacy.serialize(mm.deserialize(s)));
+            serializedLore.add(legacy.serialize(mm.deserialize(PlaceholderAPI.setPlaceholders(player, s))));
         }
 
         return serializedLore;

@@ -1,7 +1,9 @@
 name: AestheticMenu
 version: '${project.version}'
 main: ru.rivendell.aestheticmenu.AestheticMenu
+author: systemdev_
 api-version: '1.20'
+softdepend: [ PlaceholderAPI ]
 commands:
   aestheticmenu-forceopen:
     aliases:
