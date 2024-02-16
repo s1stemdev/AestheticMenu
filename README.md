@@ -12,6 +12,6 @@
 - [ ] Open and click requirements
 - [ ] Ingame menu creating
 - [ ] Connect different servers via BungeeCord/Velocity
-- [ ] Different click actions
+- [x] Different click actions
 
 ![bStats](https://bstats.org/signatures/bukkit/AestheticMenu.svg)
