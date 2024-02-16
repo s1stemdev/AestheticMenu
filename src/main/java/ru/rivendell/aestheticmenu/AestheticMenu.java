@@ -18,6 +18,7 @@ import ru.rivendell.aestheticmenu.config.configurations.gui.GuiConfig;
 import ru.rivendell.aestheticmenu.events.HandlersRegistrar;
 import ru.rivendell.aestheticmenu.events.impl.InventoryClickHandler;
 import ru.rivendell.aestheticmenu.events.impl.InventoryCloseHandler;
+import ru.rivendell.aestheticmenu.events.impl.PlayerPickupItemHandler;
 import ru.rivendell.aestheticmenu.events.impl.PlayerQuitHandler;
 import ru.rivendell.aestheticmenu.gui.MenuRegistrar;
 import ru.rivendell.aestheticmenu.gui.PlayerInventoriesBuffer;
@@ -115,6 +116,7 @@ public final class AestheticMenu extends JavaPlugin {
         handlersRegistrar.registerEvent(new InventoryClickHandler());
         handlersRegistrar.registerEvent(new InventoryCloseHandler(playerInventoriesBuffer));
         handlersRegistrar.registerEvent(new PlayerQuitHandler(playerInventoriesBuffer));
+        handlersRegistrar.registerEvent(new PlayerPickupItemHandler());
     }
 
 }
