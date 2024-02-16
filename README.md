@@ -7,7 +7,7 @@
 - [ ] Plugin API
 - [x] Creating menus with Chest and Player inventory
 - [x] Add bStats statistic
-- [ ] PlaceholderAPI support
+- [x] PlaceholderAPI support
 - [ ] Animations
 - [ ] Open and click requirements
 - [ ] Ingame menu creating
