@@ -8,6 +8,7 @@ import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.bukkit.Bukkit;
+import org.bukkit.Sound;
 import org.bukkit.block.data.FaceAttachable;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -67,6 +68,9 @@ public class InventoryClickHandler implements Listener {
                 case CONSOLE: {
                     Bukkit.getServer().dispatchCommand(Bukkit.getServer().getConsoleSender(), PlaceholderAPI.setPlaceholders(player, action.getData()));
                     break;
+                }
+                case SOUND: {
+                    player.playSound(player.getLocation(), Sound.valueOf(action.getData()), 1f, 1f);
                 }
                 case CLOSE: {
                     player.closeInventory();

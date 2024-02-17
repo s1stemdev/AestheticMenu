@@ -5,6 +5,7 @@ public enum ActionType {
     MESSAGE,
     CONSOLE,
     PLAYER,
+    SOUND,
     CLOSE;
 
 }
