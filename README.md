@@ -9,7 +9,8 @@
 - [x] Add bStats statistic
 - [x] PlaceholderAPI support
 - [ ] Animations
-- [ ] Open and click requirements
+- [ ] Open requirements
+- [x] Click requirements
 - [ ] Ingame menu creating
 - [ ] Connect different servers via BungeeCord/Velocity
 - [x] Different click actions

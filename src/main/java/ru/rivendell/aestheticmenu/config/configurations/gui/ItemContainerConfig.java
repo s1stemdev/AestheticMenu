@@ -9,5 +9,7 @@ import java.util.List;
 public class ItemContainerConfig {
 
     private List<ActionConfig> actions;
+    private RequirementsConfig requirement;
+    private String permission;
 
 }

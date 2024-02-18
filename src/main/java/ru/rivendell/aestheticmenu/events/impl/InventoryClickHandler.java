@@ -46,8 +46,14 @@ public class InventoryClickHandler implements Listener {
         if(!(event.getInventory().getHolder() instanceof MenuHolder)) return;
         if(event.getCurrentItem() == null) return;
 
+        Player player = (Player) event.getWhoClicked();
+
         ItemContainerConfig config = deserializer.fromJson(event.getCurrentItem().getItemMeta().getPersistentDataContainer().get(AestheticMenu.COMMANDS_KEY, PersistentDataType.STRING), ItemContainerConfig.class);
-        execute((Player) event.getWhoClicked(), config);
+        if(config.getPermission() == null || player.hasPermission(config.getPermission())) {
+
+            if(config.getRequirement() == null || config.getRequirement().result(player)) execute(player, config);
+
+        }
 
         event.setCancelled(true);
     }
