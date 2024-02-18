@@ -111,16 +111,14 @@ public class MenuInventory {
         meta.setDisplayName(legacy.serialize(mm.deserialize(PlaceholderAPI.setPlaceholders(player, itemConfig.getName()))));
         meta.setLore(serializeLore(itemConfig.getLore(), player));
 
-        /*for (EnchantmentConfig enchant : itemConfig.getEnchantments()) {
+        for (EnchantmentConfig enchant : itemConfig.getEnchantments()) {
             try {
-                Field field = Enchantment.class.getDeclaredField(enchant.getEnchant());
-                Enchantment enchantment = (Enchantment) field.get(Enchantment.class);
-
+                Enchantment enchantment = Enchantment.getByKey(NamespacedKey.minecraft(enchant.getEnchant().toLowerCase()));
                 meta.addEnchant(enchantment, enchant.getLevel(), true);
-            } catch (NoSuchFieldException | IllegalAccessException e) {
-                throw new RuntimeException(e);
+            } catch (Exception e) {
+                Bukkit.getServer().getLogger().severe(e.getMessage());
             }
-        } */
+        }
 
         for (ItemFlag flag : itemConfig.getFlags()) {
             meta.addItemFlags(flag);
