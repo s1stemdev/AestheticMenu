@@ -16,6 +16,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.persistence.PersistentDataType;
+import org.checkerframework.checker.units.qual.A;
 import ru.rivendell.aestheticmenu.AestheticMenu;
 import ru.rivendell.aestheticmenu.config.configurations.gui.ActionConfig;
 import ru.rivendell.aestheticmenu.config.configurations.gui.ItemContainerConfig;
@@ -48,11 +49,13 @@ public class InventoryClickHandler implements Listener {
 
         Player player = (Player) event.getWhoClicked();
 
-        ItemContainerConfig config = deserializer.fromJson(event.getCurrentItem().getItemMeta().getPersistentDataContainer().get(AestheticMenu.COMMANDS_KEY, PersistentDataType.STRING), ItemContainerConfig.class);
-        if(config.getPermission() == null || player.hasPermission(config.getPermission())) {
+        if(event.getCurrentItem().getItemMeta().getPersistentDataContainer().has(AestheticMenu.COMMANDS_KEY, PersistentDataType.STRING)) {
+            ItemContainerConfig config = deserializer.fromJson(event.getCurrentItem().getItemMeta().getPersistentDataContainer().get(AestheticMenu.COMMANDS_KEY, PersistentDataType.STRING), ItemContainerConfig.class);
+            if (config.getPermission() == null || player.hasPermission(config.getPermission())) {
 
-            if(config.getRequirement() == null || config.getRequirement().result(player)) execute(player, config);
+                if (config.getRequirement() == null || config.getRequirement().result(player)) execute(player, config);
 
+            }
         }
 
         event.setCancelled(true);

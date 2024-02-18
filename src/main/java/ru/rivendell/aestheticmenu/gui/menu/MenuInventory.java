@@ -9,17 +9,25 @@ import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
+import org.bukkit.OfflinePlayer;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
+import org.bukkit.profile.PlayerProfile;
 import ru.rivendell.aestheticmenu.AestheticMenu;
+import ru.rivendell.aestheticmenu.config.configurations.gui.EnchantmentConfig;
 import ru.rivendell.aestheticmenu.config.configurations.gui.GuiConfig;
 import ru.rivendell.aestheticmenu.config.configurations.gui.ItemConfig;
 import ru.rivendell.aestheticmenu.gui.PlayerInventoriesBuffer;
+import ru.rivendell.aestheticmenu.utils.SkullCreator;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -87,7 +95,14 @@ public class MenuInventory {
     }
 
     private ItemStack buildItem(ItemConfig itemConfig, Player player) {
-        ItemStack item = new ItemStack(itemConfig.getMaterial());
+        ItemStack item;
+
+        if(itemConfig.getMaterial() == Material.PLAYER_HEAD && itemConfig.getHeadValue() != null) {
+            item = SkullCreator.itemFromBase64(itemConfig.getHeadValue());
+        }
+        else {
+            item = new ItemStack(itemConfig.getMaterial());
+        }
 
         item.setAmount(itemConfig.getAmount());
 
@@ -95,6 +110,21 @@ public class MenuInventory {
         assert meta != null;
         meta.setDisplayName(legacy.serialize(mm.deserialize(PlaceholderAPI.setPlaceholders(player, itemConfig.getName()))));
         meta.setLore(serializeLore(itemConfig.getLore(), player));
+
+        /*for (EnchantmentConfig enchant : itemConfig.getEnchantments()) {
+            try {
+                Field field = Enchantment.class.getDeclaredField(enchant.getEnchant());
+                Enchantment enchantment = (Enchantment) field.get(Enchantment.class);
+
+                meta.addEnchant(enchantment, enchant.getLevel(), true);
+            } catch (NoSuchFieldException | IllegalAccessException e) {
+                throw new RuntimeException(e);
+            }
+        } */
+
+        for (ItemFlag flag : itemConfig.getFlags()) {
+            meta.addItemFlags(flag);
+        }
 
         PersistentDataContainer container = meta.getPersistentDataContainer();
         container.set(AestheticMenu.COMMANDS_KEY, PersistentDataType.STRING,

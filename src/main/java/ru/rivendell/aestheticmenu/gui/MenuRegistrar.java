@@ -23,6 +23,10 @@ public class MenuRegistrar {
 
     public MenuRegistrar() { menus = new ArrayList<>(); }
 
+    public void clear() {
+        menus.clear();
+    }
+
     public void registerMenu(GuiConfig config) {
         MenuInventory menu = new MenuInventory(config, playerInventoriesBuffer);
         menus.add(menu);

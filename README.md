@@ -14,5 +14,8 @@
 - [ ] Ingame menu creating
 - [ ] Connect different servers via BungeeCord/Velocity
 - [x] Different click actions
+- [x] Reload command
+- [x] Optional parameters
+- [ ] Custom heads
 
 ![bStats](https://bstats.org/signatures/bukkit/AestheticMenu.svg)

@@ -9,9 +9,11 @@ import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.plugin.java.JavaPlugin;
 import ru.rivendell.aestheticmenu.commands.CommandRegistrar;
 import ru.rivendell.aestheticmenu.commands.impl.ForceOpenCommand;
+import ru.rivendell.aestheticmenu.commands.impl.ReloadCommand;
 import ru.rivendell.aestheticmenu.config.ConfigLoader;
 import ru.rivendell.aestheticmenu.config.configurations.ConfigRegistrar;
 import ru.rivendell.aestheticmenu.config.configurations.gui.GuiConfig;
@@ -26,6 +28,7 @@ import ru.rivendell.aestheticmenu.gui.menu.MenuHolder;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.logging.Logger;
 
 @Singleton
@@ -63,7 +66,8 @@ public final class AestheticMenu extends JavaPlugin {
 
         loadMenus();
 
-        commandRegistrar.registerCommand("aestheticmenu-forceopen", new ForceOpenCommand(menuRegistrar, "aestheticmenu.admin", configRegistrar.getMessagesConfig(), playerInventoriesBuffer));
+        commandRegistrar.registerCommand("aestheticmenu-forceopen", new ForceOpenCommand(menuRegistrar, "aestheticmenu.admin.forceopen", configRegistrar.getMessagesConfig(), playerInventoriesBuffer));
+        commandRegistrar.registerCommand("aestheticmenu-reload", new ReloadCommand("aestheticmenu.admin.reload", configRegistrar.getMessagesConfig(), this));
 
         pluginMetrics.setupMetrics();
         registerEvents();
@@ -86,6 +90,28 @@ public final class AestheticMenu extends JavaPlugin {
             }
 
         }
+    }
+
+    public void reload() {
+
+        for (Player onlinePlayer : Bukkit.getServer().getOnlinePlayers()) {
+            Inventory inventory = onlinePlayer.getOpenInventory().getTopInventory();
+            if(inventory != null) {
+                if(inventory instanceof MenuHolder) {
+                    MenuHolder holder = (MenuHolder) inventory.getHolder();
+
+                    if(holder.isBuffer()) {
+                        onlinePlayer.getInventory().setContents(playerInventoriesBuffer.getBuffer().get(onlinePlayer.getUniqueId()));
+                        playerInventoriesBuffer.getBuffer().remove(onlinePlayer.getUniqueId());
+                    }
+                }
+            }
+        }
+
+        configRegistrar.loadConfig();
+        menuRegistrar.clear();
+
+        loadMenus();
     }
 
     private void loadDepends() {

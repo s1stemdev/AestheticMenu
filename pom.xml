@@ -6,7 +6,7 @@
 
   <groupId>ru.rivendell</groupId>
   <artifactId>AestheticMenu</artifactId>
-  <version>0.3-BETA</version>
+  <version>0.3.1-BETA</version>
   <packaging>jar</packaging>
 
   <name>AestheticMenu</name>
@@ -85,6 +85,10 @@
           <id>placeholderapi</id>
           <url>https://repo.extendedclip.com/content/repositories/placeholderapi/</url>
       </repository>
+      <repository>
+          <id>minecraft-repo</id>
+          <url>https://libraries.minecraft.net/</url>
+      </repository>
   </repositories>
 
   <dependencies>
@@ -130,6 +134,12 @@
           <groupId>me.clip</groupId>
           <artifactId>placeholderapi</artifactId>
           <version>2.11.5</version>
+          <scope>provided</scope>
+      </dependency>
+      <dependency>
+          <groupId>com.mojang</groupId>
+          <artifactId>authlib</artifactId>
+          <version>1.5.21</version>
           <scope>provided</scope>
       </dependency>
   </dependencies>

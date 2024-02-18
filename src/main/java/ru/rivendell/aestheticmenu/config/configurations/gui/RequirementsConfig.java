@@ -18,6 +18,12 @@ public class RequirementsConfig {
     private List<RequirementValueConfig> requirements;
     private boolean invert;
 
+    public RequirementsConfig() {
+        type = RequirementType.NONE;
+        requirements = new ArrayList<>();
+        invert = false;
+    }
+
     public boolean result(Player player) {
 
         if(requirements.isEmpty()) return true;
