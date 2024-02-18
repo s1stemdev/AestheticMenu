@@ -1,6 +1,6 @@
 ![build](https://img.shields.io/github/actions/workflow/status/s1stemdev/AestheticMenu/maven.yml) 
 ![GitHub release](https://img.shields.io/github/v/release/s1stemdev/AestheticMenu)
-
+# Get started
 # TODO List:
 
 - [x] Creating GUI menus in json config
