@@ -11,9 +11,9 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.plugin.java.JavaPlugin;
-import ru.rivendell.aestheticmenu.commands.CommandRegistrar;
-import ru.rivendell.aestheticmenu.commands.impl.ForceOpenCommand;
-import ru.rivendell.aestheticmenu.commands.impl.ReloadCommand;
+import revxrsal.commands.bukkit.BukkitCommandHandler;
+import ru.rivendell.aestheticmenu.commands.admin.ForceOpenCommand;
+import ru.rivendell.aestheticmenu.commands.admin.ReloadCommand;
 import ru.rivendell.aestheticmenu.config.ConfigLoader;
 import ru.rivendell.aestheticmenu.config.configurations.ConfigRegistrar;
 import ru.rivendell.aestheticmenu.config.configurations.gui.GuiConfig;
@@ -27,8 +27,6 @@ import ru.rivendell.aestheticmenu.gui.PlayerInventoriesBuffer;
 import ru.rivendell.aestheticmenu.gui.menu.MenuHolder;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.util.ArrayList;
 import java.util.logging.Logger;
 
 @Singleton
@@ -40,11 +38,16 @@ public final class AestheticMenu extends JavaPlugin {
 
     @Inject private ConfigLoader configLoader;
     @Inject private ConfigRegistrar configRegistrar;
-    @Inject private CommandRegistrar commandRegistrar;
     @Inject private HandlersRegistrar handlersRegistrar;
     @Inject private MenuRegistrar menuRegistrar;
     @Inject private PluginMetrics pluginMetrics;
     @Inject private PlayerInventoriesBuffer playerInventoriesBuffer;
+
+
+    @Inject private ReloadCommand reloadCommand;
+    @Inject private ForceOpenCommand forceOpenCommand;
+
+
     private MiniMessage mm = MiniMessage.miniMessage();
 
     public static NamespacedKey COMMANDS_KEY;
@@ -66,11 +69,13 @@ public final class AestheticMenu extends JavaPlugin {
 
         loadMenus();
 
-        commandRegistrar.registerCommand("aestheticmenu-forceopen", new ForceOpenCommand(menuRegistrar, "aestheticmenu.admin.forceopen", configRegistrar.getMessagesConfig(), playerInventoriesBuffer));
-        commandRegistrar.registerCommand("aestheticmenu-reload", new ReloadCommand("aestheticmenu.admin.reload", configRegistrar.getMessagesConfig(), this));
-
         pluginMetrics.setupMetrics();
         registerEvents();
+
+        BukkitCommandHandler handler = BukkitCommandHandler.create(this);
+        handler.register(reloadCommand);
+        handler.register(forceOpenCommand);
+
     }
 
     @Override
@@ -133,8 +138,13 @@ public final class AestheticMenu extends JavaPlugin {
         File[] files = folder.listFiles();
 
         for (File file : files) {
-            menuRegistrar.registerMenu(configLoader.load("menus/" + file.getName().replace(".json", ""), GuiConfig.class));
-            log.info("Loading menu " + file.getName());
+            try {
+                menuRegistrar.registerMenu(configLoader.load("menus/" + file.getName().replace(".json", ""), GuiConfig.class));
+                log.info("Loading menu " + file.getName());
+            } catch (Exception e) {
+                log.severe(e.getMessage());
+            }
+
         }
     }
 

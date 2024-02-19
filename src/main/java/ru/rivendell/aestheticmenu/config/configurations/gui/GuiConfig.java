@@ -11,7 +11,7 @@ import java.util.HashMap;
 public class GuiConfig extends Configurable {
 
     @Getter private String menuId;
-    private String command;
+    private String[] commands;
     private String title;
     @Getter private byte size;
     @Getter private boolean usePlayerInventory;
@@ -23,9 +23,9 @@ public class GuiConfig extends Configurable {
         return null;
     }
 
-    public String getCommand() {
-        if(command == null) return menuId + "_open";
-        return command;
+    public String[] getCommands() {
+        if(commands == null) return new String[]{ menuId + "_default" };
+        return commands;
     }
 
     public String getTitle() {

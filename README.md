@@ -17,5 +17,6 @@
 - [x] Reload command
 - [x] Optional parameters
 - [ ] Custom heads
+- [ ] Register short commands
 
 ![bStats](https://bstats.org/signatures/bukkit/AestheticMenu.svg)

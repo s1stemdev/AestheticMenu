@@ -20,6 +20,7 @@ import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.profile.PlayerProfile;
+import revxrsal.commands.annotation.Command;
 import ru.rivendell.aestheticmenu.AestheticMenu;
 import ru.rivendell.aestheticmenu.config.configurations.gui.EnchantmentConfig;
 import ru.rivendell.aestheticmenu.config.configurations.gui.GuiConfig;
@@ -142,6 +143,5 @@ public class MenuInventory {
 
         return serializedLore;
     }
-
 
 }

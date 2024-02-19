@@ -4,4 +4,9 @@ main: ru.rivendell.aestheticmenu.AestheticMenu
 authors:
   - systemdev_
 api-version: '1.20'
-depend: [ PlaceholderAPI ]
+dependencies:
+  server:
+    PlaceholderAPI:
+      load: BEFORE
+      required: false
+      join-classpath: true
