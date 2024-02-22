@@ -10,14 +10,14 @@
 - [x] Add bStats statistic
 - [x] PlaceholderAPI support
 - [ ] Animations
-- [ ] Open requirements
+- [x] Open requirements
 - [x] Click requirements
 - [ ] Ingame menu creating
 - [ ] Connect different servers via BungeeCord/Velocity
 - [x] Different click actions
 - [x] Reload command
 - [x] Optional parameters
-- [ ] Custom heads
+- [x] Custom heads
 - [ ] Register short commands
 
 ![bStats](https://bstats.org/signatures/bukkit/AestheticMenu.svg)
