@@ -1,4 +1,4 @@
-package ru.rivendell.aestheticmenu.config.configurations.gui;
+package ru.rivendell.aestheticmenu.config.configurations.gui.item;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -9,5 +9,7 @@ public class ActionConfig {
 
     private ActionType type;
     private String data;
+
+
 
 }

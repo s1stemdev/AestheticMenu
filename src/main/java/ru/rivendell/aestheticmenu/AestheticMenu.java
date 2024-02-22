@@ -25,6 +25,7 @@ import ru.rivendell.aestheticmenu.events.impl.PlayerQuitHandler;
 import ru.rivendell.aestheticmenu.gui.MenuRegistrar;
 import ru.rivendell.aestheticmenu.gui.PlayerInventoriesBuffer;
 import ru.rivendell.aestheticmenu.gui.menu.MenuHolder;
+import ru.rivendell.aestheticmenu.utils.TextSerializer;
 
 import java.io.File;
 import java.util.logging.Logger;
@@ -48,13 +49,18 @@ public final class AestheticMenu extends JavaPlugin {
     @Inject private ForceOpenCommand forceOpenCommand;
 
 
-    private MiniMessage mm = MiniMessage.miniMessage();
-
     public static NamespacedKey COMMANDS_KEY;
 
     @Override
     public void onEnable() {
         log = getLogger();
+
+        log.info(TextSerializer.serializeAnsi("<#FBA7E9>\n" +
+                "<#FBA7E9>▄▀█ █▀▀ █▀ ▀█▀ █░█ █▀▀ ▀█▀ █ █▀▀\n" +
+                "<#FBA7E9>█▀█ ██▄ ▄█ ░█░ █▀█ ██▄ ░█░ █ █▄▄\n" +
+                "<#FBA7E9>\n" +
+                "<#FBA7E9>░ ░ ░ █▀▄▀█ █▀▀ █▄░█ █░█ ░ ░ ░\n" +
+                "<#FBA7E9>▄ ▄ ▄ █░▀░█ ██▄ █░▀█ █▄█ ▄ ▄ ▄"));
 
         loadDepends();
 
@@ -62,10 +68,10 @@ public final class AestheticMenu extends JavaPlugin {
 
         this.injector = Guice.createInjector(new AestheticModule(this));
         this.injector.injectMembers(this);
-        log.info("Injector has created successful");
+        log.info(TextSerializer.serializeAnsi("<#FBA7E9><bold>Injector has created successful"));
 
         configRegistrar.loadConfig();
-        log.info("Config has been loaded");
+        log.info(TextSerializer.serializeAnsi("<#FBA7E9><bold>Config has been loaded"));
 
         loadMenus();
 
@@ -80,7 +86,7 @@ public final class AestheticMenu extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        log.info("Disabling plugin");
+        log.info(TextSerializer.serializeAnsi("<#FBA7E9><bold>Disabling plugin"));
 
         for (Player player : Bukkit.getOnlinePlayers()) {
             if(player.getOpenInventory().getTopInventory() == null) continue;
@@ -99,20 +105,6 @@ public final class AestheticMenu extends JavaPlugin {
 
     public void reload() {
 
-        for (Player onlinePlayer : Bukkit.getServer().getOnlinePlayers()) {
-            Inventory inventory = onlinePlayer.getOpenInventory().getTopInventory();
-            if(inventory != null) {
-                if(inventory instanceof MenuHolder) {
-                    MenuHolder holder = (MenuHolder) inventory.getHolder();
-
-                    if(holder.isBuffer()) {
-                        onlinePlayer.getInventory().setContents(playerInventoriesBuffer.getBuffer().get(onlinePlayer.getUniqueId()));
-                        playerInventoriesBuffer.getBuffer().remove(onlinePlayer.getUniqueId());
-                    }
-                }
-            }
-        }
-
         configRegistrar.loadConfig();
         menuRegistrar.clear();
 
@@ -121,10 +113,10 @@ public final class AestheticMenu extends JavaPlugin {
 
     private void loadDepends() {
         if(Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
-            log.info("PlaceholderAPI hooked successful!");
+            log.info(TextSerializer.serializeAnsi("<#FBA7E9><bold>PlaceholderAPI hooked successful!"));
         }
         else {
-            log.severe("PlaceholderAPI not found! Install it to get best experience");
+            log.severe(TextSerializer.serializeAnsi("<#FBA7E9><bold>PlaceholderAPI not found! Install it to get best experience"));
             Bukkit.getPluginManager().disablePlugin(this);
         }
     }
@@ -140,7 +132,7 @@ public final class AestheticMenu extends JavaPlugin {
         for (File file : files) {
             try {
                 menuRegistrar.registerMenu(configLoader.load("menus/" + file.getName().replace(".json", ""), GuiConfig.class));
-                log.info("Loading menu " + file.getName());
+                log.info(TextSerializer.serializeAnsi("<#FBA7E9><bold>Loading menu " + file.getName()));
             } catch (Exception e) {
                 log.severe(e.getMessage());
             }

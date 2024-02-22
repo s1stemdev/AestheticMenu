@@ -1,4 +1,4 @@
-package ru.rivendell.aestheticmenu.config.configurations.gui;
+package ru.rivendell.aestheticmenu.config.configurations.gui.item;
 
 import lombok.Getter;
 import lombok.Setter;

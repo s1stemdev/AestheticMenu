@@ -1,4 +1,4 @@
-package ru.rivendell.aestheticmenu.config.configurations.gui;
+package ru.rivendell.aestheticmenu.config.configurations.gui.requirements;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -6,8 +6,8 @@ import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import ru.rivendell.aestheticmenu.enums.RequirementType;
+import ru.rivendell.aestheticmenu.utils.ListUtils;
 
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,7 +26,7 @@ public class RequirementsConfig {
 
     public boolean result(Player player) {
 
-        if(requirements.isEmpty()) return true;
+        if(requirements == null || requirements.isEmpty()) return true;
 
         List<Boolean> results = new ArrayList<>();
 
@@ -36,8 +36,8 @@ public class RequirementsConfig {
 
         boolean result = false;
 
-        if(type == RequirementType.ALL) result = isAllTrue(results);
-        if(type == RequirementType.ANY) result = isAnyTrue(results);
+        if(type == RequirementType.ALL) result = ListUtils.isAllTrue(results);
+        if(type == RequirementType.ANY) result = ListUtils.isAnyTrue(results);
 
         if(invert) result = !result;
 
@@ -45,17 +45,40 @@ public class RequirementsConfig {
     }
 
     private boolean requirementResult(RequirementValueConfig requirement, Player player) {
-        double first = 0;
-        double second = 0;
-
         try {
-            first = Double.parseDouble(PlaceholderAPI.setPlaceholders(player, requirement.getFirst()));
-            second = Double.parseDouble(PlaceholderAPI.setPlaceholders(player, requirement.getSecond()));
-        } catch (Exception exception) {
-            Bukkit.getServer().getLogger().severe(exception.getMessage());
+            switch (requirement.getType()) {
+                case NUM: {
+                    return numberResult(Double.parseDouble(PlaceholderAPI.setPlaceholders(player, requirement.getFirst())), Double.parseDouble(PlaceholderAPI.setPlaceholders(player, requirement.getSecond())), requirement.getSymbol(), player);
+                }
+                case STR: {
+                    return stringResult(requirement.getFirst(), requirement.getSecond(), requirement.getSymbol(), player);
+                }
+                case BOOL: {
+                    return Boolean.parseBoolean(PlaceholderAPI.setPlaceholders(player, requirement.getValue()));
+                }
+                case PERMISSION: {
+                    return player.hasPermission(PlaceholderAPI.setPlaceholders(player, requirement.getValue()));
+                }
+                default: {
+                    return false;
+                }
+            }
+        } catch (Exception e) {
+            Bukkit.getLogger().severe(e.getMessage());
+            return false;
         }
+    }
 
-        switch (requirement.getSymbol()) {
+    private boolean stringResult(String s, String s2, String symb, Player player) {
+        if(symb.equals("==")) return PlaceholderAPI.setPlaceholders(player, s).equals(PlaceholderAPI.setPlaceholders(player, s2));
+        if(symb.equals("!=")) return !PlaceholderAPI.setPlaceholders(player, s).equals(PlaceholderAPI.setPlaceholders(player, s2));
+
+        return false;
+    }
+
+    private boolean numberResult(double first, double second, String symb, Player player) {
+
+        switch (symb) {
             case ">": {
                 return first > second;
             }
@@ -83,6 +106,7 @@ public class RequirementsConfig {
 
         for (RequirementValueConfig requirement : requirements) {
             processed.add(new RequirementValueConfig(
+                    requirement.getType(),
                     PlaceholderAPI.setPlaceholders(player, requirement.getFirst()),
                     requirement.getSymbol(),
                     PlaceholderAPI.setPlaceholders(player, requirement.getSecond())
@@ -90,22 +114,6 @@ public class RequirementsConfig {
         }
 
         return processed;
-    }
-
-    public static boolean isAllTrue(List<Boolean> list) {
-        for (Boolean b : list) {
-            if (!b) return false;
-        }
-
-        return true;
-    }
-
-    public static boolean isAnyTrue(List<Boolean> list) {
-        for (Boolean b : list) {
-            if (b) return true;
-        }
-
-        return false;
     }
 
 }

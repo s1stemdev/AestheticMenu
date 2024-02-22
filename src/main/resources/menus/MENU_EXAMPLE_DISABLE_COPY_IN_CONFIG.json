@@ -1,0 +1,76 @@
+{
+  "menuId": "hello",
+  "commands":  [ "hello_aesthetic", "hi_aesthetic"],
+  "title": "<gradient:#7CFB18:#FBF32C>Hello, %player_name%!",
+  "size": 54,
+  "usePlayerInventory": true,
+  "items": {
+    "fill": {
+      "material": "GRASS",
+      "flags": [ "HIDE_ENCHANTS" ],
+      "enchantments": [ { "enchant": "SHARPNESS"} ],
+      "slots": [ 0, 1, 2, 3, 4, 5, 6, 7, 8 ]
+    },
+    "head": {
+      "material": "PLAYER_HEAD",
+      "name": "<gradient:#FB4D4D:#ADF3FD>Head with</gradient> <green>value",
+      "headValue": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNjIzNDM5YTJmNzU3ZTQ0ZWJmYjE1Njc0NzI0NTgwNGMyZDhhYmFlODdmZjEyZmZhMjAzYTM0NGY0OGVjOTY3MCJ9fX0=",
+      "slot": 17,
+      "clickActions": [
+        {
+          "clickTypes": [ "RIGHT", "LEFT" ],
+          "actions": [
+            { "type": "SOUND", "data": "ENTITY_VILLAGER_TRADE" },
+            { "type": "MESSAGE", "data": "<#FBF32C>It's a head" },
+            { "type": "CLOSE" }
+          ],
+          "requirements": {
+            "type": "ANY",
+            "invert": false,
+            "requirements": [
+              { "type": "STR", "first": "%player_name%", "second": "systemdev_"},
+              { "type": "PERMISSION", "value": "test.test"},
+              { "first": "%server_online%", "second": 1 }
+            ]
+          },
+          "onRequirementsCheckFail": [
+            { "type": "SOUND", "data": "ENTITY_VILLAGER_NO" },
+            { "type": "MESSAGE", "data": "<red>You can't do it" },
+            { "type": "CLOSE" }
+          ]
+        }
+      ]
+    }
+  },
+  "playerInvItems": {
+    "head2": {
+      "material": "PLAYER_HEAD",
+      "name": "<gradient:#FB4D4D:#ADF3FD>Second head with</gradient> <green>value",
+      "headValue": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNjIzNDM5YTJmNzU3ZTQ0ZWJmYjE1Njc0NzI0NTgwNGMyZDhhYmFlODdmZjEyZmZhMjAzYTM0NGY0OGVjOTY3MCJ9fX0=",
+      "slots": [ 5, 6, 7 ],
+      "clickActions": [
+        {
+          "clickTypes": [ "RIGHT", "LEFT" ],
+          "actions": [
+            { "type": "SOUND", "data": "ENTITY_VILLAGER_TRADE" },
+            { "type": "MESSAGE", "data": "<#FBF32C>It's a second head" },
+            { "type": "CLOSE" }
+          ],
+          "requirements": {
+            "type": "ALL",
+            "invert": false,
+            "requirements": [
+              { "type": "STR", "first": "%player_name%", "second": "systemdev_"},
+              { "first": "%server_online%", "second": 1 }
+            ]
+          },
+          "onRequirementsCheckFail": [
+            { "type": "SOUND", "data": "ENTITY_VILLAGER_NO" },
+            { "type": "MESSAGE", "data": "<red>You can't do it x2" },
+            { "type": "CLOSE" }
+          ]
+        }
+      ]
+    }
+  }
+}

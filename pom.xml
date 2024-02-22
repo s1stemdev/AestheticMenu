@@ -135,6 +135,11 @@
           <version>4.15.0</version>
       </dependency>
       <dependency>
+          <groupId>net.kyori</groupId>
+          <artifactId>adventure-text-serializer-ansi</artifactId>
+          <version>4.15.0</version>
+      </dependency>
+      <dependency>
           <groupId>me.clip</groupId>
           <artifactId>placeholderapi</artifactId>
           <version>2.11.5</version>
