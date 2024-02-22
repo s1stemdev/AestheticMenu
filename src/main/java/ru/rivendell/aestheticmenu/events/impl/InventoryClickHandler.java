@@ -10,7 +10,6 @@ import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 import ru.rivendell.aestheticmenu.AestheticMenu;
 import ru.rivendell.aestheticmenu.config.configurations.gui.item.ClickActionConfig;
-import ru.rivendell.aestheticmenu.config.configurations.gui.item.ItemContainerConfig;
 import ru.rivendell.aestheticmenu.gui.menu.MenuHolder;
 
 import java.lang.reflect.Modifier;

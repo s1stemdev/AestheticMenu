@@ -2,7 +2,6 @@
 ![GitHub release](https://img.shields.io/github/v/release/s1stemdev/AestheticMenu)
 
 ![head](.github/assets/plugin_title.png)
-# Get started
 # TODO List:
 
 - [x] Creating GUI menus in json config
