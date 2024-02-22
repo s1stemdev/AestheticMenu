@@ -15,6 +15,7 @@ public class GuiConfig extends Configurable {
     private String title;
     @Getter private byte size;
     @Getter private boolean usePlayerInventory;
+    @Getter private GuiOpenRequirementsConfig openRequirements;
     private HashMap<String, ItemConfig> items;
     private HashMap<String, ItemConfig> playerInvItems;
 

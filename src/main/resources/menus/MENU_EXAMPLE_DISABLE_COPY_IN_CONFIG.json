@@ -4,6 +4,19 @@
   "title": "<gradient:#7CFB18:#FBF32C>Hello, %player_name%!",
   "size": 54,
   "usePlayerInventory": true,
+  "openRequirements": {
+    "requirements": {
+      "type": "ANY",
+      "invert": false,
+      "requirements": [
+        {"type": "PERMISSION", "value": "test.test2"}
+      ]
+    },
+    "onFail": [
+      { "type": "SOUND", "data": "ENTITY_VILLAGER_NO" },
+      { "type": "MESSAGE", "data": "<red>You can't open menu" }
+    ]
+  },
   "items": {
     "fill": {
       "material": "GRASS",

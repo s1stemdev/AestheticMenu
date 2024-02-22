@@ -43,6 +43,8 @@ public class MenuInventory {
 
     public void openCustomInventory(CustomInventory inventory, Player player) {
 
+        if(getGui().getOpenRequirements() != null && !getGui().getOpenRequirements().shouldOpen(player)) return;
+
         if(getGui().isUsePlayerInventory()) {
             playerInventoriesBuffer.getBuffer().put(player.getUniqueId(), player.getInventory().getContents());
             player.getInventory().clear();
@@ -110,7 +112,7 @@ public class MenuInventory {
 
         ItemMeta meta = item.getItemMeta();
         assert meta != null;
-        meta.setDisplayName(TextSerializer.serializeSection(PlaceholderAPI.setPlaceholders(player, itemConfig.getName())));
+        if(itemConfig.getName() != null) meta.setDisplayName(TextSerializer.serializeSection(PlaceholderAPI.setPlaceholders(player, itemConfig.getName())));
         meta.setLore(serializeLore(itemConfig.getLore(), player));
 
         for (EnchantmentConfig enchant : itemConfig.getEnchantments()) {

@@ -17,7 +17,7 @@ public class ItemConfig {
     @Getter private String headValue;
     private byte amount;
     @Getter private int custommodeldata;
-    private String name;
+    @Getter private String name;
     private List<String> lore;
     private List<ItemFlag> flags;
     private List<EnchantmentConfig> enchantments;
@@ -36,14 +36,6 @@ public class ItemConfig {
 
         return amount;
     }
-
-    public String getName() {
-
-        if(name == null) return processItemName();
-
-        return name;
-    }
-
     public List<String> getLore() {
         if(lore == null) return new ArrayList<>();
 
@@ -75,15 +67,5 @@ public class ItemConfig {
         }
 
         return slots;
-    }
-
-    private String processItemName() {
-        String name = material.toString();
-
-        name = name.replaceAll("_", " ");
-        name = name.toLowerCase();
-        name = name.substring(0, 1).toUpperCase() + name.substring(1);
-
-        return name;
     }
 }
