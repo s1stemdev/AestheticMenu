@@ -17,11 +17,12 @@ public class ClickActionConfig {
     private List<ActionConfig> actions;
     private RequirementsConfig requirements;
     private List<ActionConfig> onRequirementsCheckFail;
-    private List<ActionConfig> noPermission;
 
-    public void execute(Player player) {
+    public void execute(Player player, ClickType type) {
 
         if(actions == null) return;
+
+        if(!clickTypes.contains(type)) return;
 
         if(requirements != null && !requirements.result(player)) {
             if(onRequirementsCheckFail != null) ActionExecutor.executeActions(player, onRequirementsCheckFail);

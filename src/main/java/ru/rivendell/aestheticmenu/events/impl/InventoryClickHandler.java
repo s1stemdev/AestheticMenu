@@ -38,7 +38,7 @@ public class InventoryClickHandler implements Listener {
             MenuHolder holder = (MenuHolder) event.getInventory().getHolder();
 
             for (ClickActionConfig clickActionConfig : holder.getActions().get(id)) {
-                clickActionConfig.execute(player);
+                clickActionConfig.execute(player, event.getClick());
             }
 
         }
