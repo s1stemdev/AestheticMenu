@@ -19,5 +19,6 @@
 - [x] Optional parameters
 - [x] Custom heads
 - [ ] Register short commands
+- [ ] Different gui types (chest, anvil, dropper, hopper and etc.)
 
 ![bStats](https://bstats.org/signatures/bukkit/AestheticMenu.svg)
