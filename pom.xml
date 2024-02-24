@@ -6,7 +6,7 @@
 
   <groupId>ru.rivendell</groupId>
   <artifactId>AestheticMenu</artifactId>
-  <version>1.0.1-RELEASE</version>
+  <version>1.0.2-RELEASE</version>
   <packaging>jar</packaging>
 
   <name>AestheticMenu</name>

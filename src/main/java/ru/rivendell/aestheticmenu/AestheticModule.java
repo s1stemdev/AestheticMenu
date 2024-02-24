@@ -8,6 +8,7 @@ import ru.rivendell.aestheticmenu.config.configurations.ConfigRegistrar;
 import ru.rivendell.aestheticmenu.events.HandlersRegistrar;
 import ru.rivendell.aestheticmenu.gui.MenuRegistrar;
 import ru.rivendell.aestheticmenu.gui.PlayerInventoriesBuffer;
+import ru.rivendell.aestheticmenu.utils.ProxySender;
 
 public class AestheticModule extends AbstractModule {
 

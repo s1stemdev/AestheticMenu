@@ -14,7 +14,7 @@ public class PlayerPickupItemHandler implements Listener {
         Player player = event.getPlayer();
         InventoryHolder holder = player.getOpenInventory().getTopInventory().getHolder();
 
-        if(holder instanceof MenuHolder) return;
+        if(!(holder instanceof MenuHolder)) return;
         if(!((MenuHolder) holder).isBuffer()) return;
 
         event.setCancelled(true);
