@@ -65,9 +65,11 @@ public class MenuInventory {
         for(String key : gui.getItems().keySet()) {
             ItemStack item = buildItem(gui.getItems().get(key), key, player);
 
-            for (Integer slot : gui.getItems().get(key).getSlots()) {
-                inventory.setItem(slot, item);
-                holder.getActions().put(key, gui.getItems().get(key).getClickActions());
+            if(item != null) {
+                for (Integer slot : gui.getItems().get(key).getSlots()) {
+                    inventory.setItem(slot, item);
+                    holder.getActions().put(key, gui.getItems().get(key).getClickActions());
+                }
             }
         }
 
@@ -99,6 +101,9 @@ public class MenuInventory {
     }
 
     private ItemStack buildItem(ItemConfig itemConfig, String id, Player player) {
+        if(itemConfig.getViewRequirements() != null) {
+            if(!itemConfig.getViewRequirements().result(player)) return null;
+        }
         ItemStack item;
 
         if(itemConfig.getMaterial() == Material.PLAYER_HEAD && itemConfig.getHeadValue() != null) {

@@ -66,6 +66,8 @@ public final class AestheticMenu extends JavaPlugin {
 
         COMMANDS_KEY = new NamespacedKey(this, "commands");
 
+        this.getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
+
         this.injector = Guice.createInjector(new AestheticModule(this));
         this.injector.injectMembers(this);
         log.info(TextSerializer.serializeAnsi("<#FBA7E9><bold>Injector has created successful"));

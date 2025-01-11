@@ -6,6 +6,7 @@ import org.bukkit.Material;
 import org.bukkit.inventory.ItemFlag;
 import ru.rivendell.aestheticmenu.config.configurations.gui.item.ClickActionConfig;
 import ru.rivendell.aestheticmenu.config.configurations.gui.item.EnchantmentConfig;
+import ru.rivendell.aestheticmenu.config.configurations.gui.requirements.RequirementsConfig;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +23,7 @@ public class ItemConfig {
     private List<ItemFlag> flags;
     private List<EnchantmentConfig> enchantments;
     private List<ClickActionConfig> clickActions;
+    private RequirementsConfig viewRequirements;
     private int slot;
     private List<Integer> slots;
 
@@ -58,6 +60,10 @@ public class ItemConfig {
         if(clickActions == null) return new ArrayList<>();
 
         return clickActions;
+    }
+
+    public RequirementsConfig getViewRequirements() {
+        return viewRequirements;
     }
 
     public List<Integer> getSlots() {
